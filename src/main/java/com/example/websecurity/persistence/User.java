@@ -5,6 +5,7 @@ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.List;
@@ -26,6 +27,8 @@ public class User implements UserDetails {
     private String lastName;
     private String email;
     private String password;
+    private int failedLoginAttempts;
+    private LocalDateTime lockoutExpiry;
 
     @Column(nullable = false)
     private ZonedDateTime created;
@@ -60,7 +63,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return lockoutExpiry == null || lockoutExpiry.isBefore(LocalDateTime.now());
     }
 
     @Override

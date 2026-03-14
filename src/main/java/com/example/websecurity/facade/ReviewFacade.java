@@ -8,7 +8,6 @@ import com.example.websecurity.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,8 +18,14 @@ public class ReviewFacade {
 
     private final ReviewService reviewService;
 
-    public ReviewResponse getReviewById(Long id) {
+    public ReviewResponse getReviewById(Long id, Long userId) {
         Review review = reviewService.getReviewById(id);
+        System.out.println("DEBUG: Looking for Review ID: " + id);
+        System.out.println("DEBUG: Owner of this review in DB is: " + review.getUser().getId());
+        System.out.println("DEBUG: User currently logged in is: " + userId);
+        if (!review.getUser().getId().equals(userId)) {
+            throw new org.springframework.security.access.AccessDeniedException("Access Denied");
+        }
         return ReviewResponse.builder()
                 .id(review.getId())
                 .movieTitle(review.getMovieTitle())

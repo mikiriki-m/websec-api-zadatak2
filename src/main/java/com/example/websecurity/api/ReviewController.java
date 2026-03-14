@@ -36,7 +36,7 @@ public class ReviewController {
             return ResponseEntity.badRequest().build();
         }
         log.info("Review Controller: User {} requested a review with id {}", user.getEmail(), reviewId);
-        ReviewResponse reviewResponse = reviewFacade.getReviewById(reviewId);
+        ReviewResponse reviewResponse = reviewFacade.getReviewById(reviewId, user.getId());
         return ResponseEntity.ok(reviewResponse);
     }
 

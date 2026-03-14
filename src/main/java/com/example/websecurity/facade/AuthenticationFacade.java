@@ -21,20 +21,50 @@ public class AuthenticationFacade {
     private final JwtService jwtService;
     private final UserService userService;
 
-    @Transactional
+    @Transactional(noRollbackFor = {org.springframework.security.core.AuthenticationException.class})
     public AuthenticationResponse authenticate(@NotNull AuthenticationRequest request) {
-        log.info("Authentication Facade: Authenticating user with request: {}", request);
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getEmail(),
-                        request.getPassword()
-                )
-        );
-
         var user = userService.getUserByEmail(request.getEmail());
-        var accessToken = jwtService.generateAccessToken(user);
-        return AuthenticationResponse.builder()
-                .accessToken(accessToken)
-                .build();
+
+        if (user.getLockoutExpiry() != null && user.getLockoutExpiry().isAfter(java.time.LocalDateTime.now())) {
+            log.warn("Login denied: User {} is currently locked out.", user.getEmail());
+            // Throw 423 Locked
+            throw new org.springframework.web.server.ResponseStatusException(
+                    org.springframework.http.HttpStatus.LOCKED, "Account is locked. Try again later."
+            );
+        }
+
+        try {
+            log.info("Authentication Facade: Attempting login for user: {}", request.getEmail());
+
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            request.getEmail(),
+                            request.getPassword()
+                    )
+            );
+
+            user.setFailedLoginAttempts(0);
+            user.setLockoutExpiry(null);
+            userService.save(user);
+
+            var accessToken = jwtService.generateAccessToken(user);
+            return AuthenticationResponse.builder()
+                    .accessToken(accessToken)
+                    .build();
+
+        } catch (org.springframework.security.core.AuthenticationException e) {
+            int newAttempts = user.getFailedLoginAttempts() + 1;
+            user.setFailedLoginAttempts(newAttempts);
+            log.info("Failed login attempt #{} for user {}", newAttempts, user.getEmail());
+
+            if (newAttempts >= 3) {
+                user.setLockoutExpiry(java.time.LocalDateTime.now().plusMinutes(5));
+                log.warn("User {} has reached 3 failures and is now locked out.", user.getEmail());
+            }
+
+            userService.save(user);
+
+            throw e;
+        }
     }
 }

@@ -21,4 +21,8 @@ public class UserService {
         log.info("User Service: Found user with id: {} and email: {}", user.getId(), user.getEmail());
         return user;
     }
+
+    public void save(User user) {
+        userRepository.save(user);
+    }
 }
