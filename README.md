@@ -2,7 +2,7 @@
 In getReviewById() implemented a check to compare user ID and review ID. If there is a mismatch, throw a 403 Forbidden response.
 
 ## DICTIONARY ATTACK FIX: ACCOUNT LOCKED FOR 5 MINUTES AFTER 3 FAILED ATTEMPTS
-Modified authentication. Implemented variables to track number of failed attempts. Resets on successful login or 3 unsuccessful attempts. Modified login.js to give message on whether account is locked or not. 
+Modified authentication. Checks if user is in a lockout period. If so, dont allow login (timebased expiry). Implemented variables to track number of failed attempts. Resets the counter variable of failed attempts on successful login. 
 
 ## MySQL
 Make sure MySQL server is running: 
