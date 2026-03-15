@@ -1,3 +1,9 @@
+## IDOR FIX
+In getReviewById() implemented a check to compare user ID and review ID. If there is a mismatch, throw a 403 Forbidden response.
+
+## DICTIONARY ATTACK FIX: ACCOUNT LOCKED FOR 5 MINUTES AFTER 3 FAILED ATTEMPTS
+
+
 ## MySQL
 Make sure MySQL server is running: 
 1. Check if the container is running: `docker ps`
