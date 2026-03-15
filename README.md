@@ -17,7 +17,11 @@ Make sure MySQL server is running: \
 ## Build websec-api
 `./mvnw clean package -DskipTests`
 
+# Option 1: Maven
 `./mvnw spring-boot:run`
+
+# Option 2: JAR
+`java -jar target/web-security.jar`
 
 ## Import data
 1. `docker exec -it websec-mysql56 mysql -uroot -prootpassword websec`
