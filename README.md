@@ -15,9 +15,9 @@ Make sure MySQL server is running: \
      mysql:5.6`
 
 ## Build websec-api
-./mvnw clean package -DskipTests
+`./mvnw clean package -DskipTests`
 
-./mvnw spring-boot:run
+`./mvnw spring-boot:run`
 
 ## Import data
 1. `docker exec -it websec-mysql56 mysql -uroot -prootpassword websec`
