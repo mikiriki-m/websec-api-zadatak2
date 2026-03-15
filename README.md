@@ -1,5 +1,5 @@
 ## MySQL
-Make sure MySQL server is running: \
+Make sure MySQL server is running: 
 1. Check if the container is running: `docker ps`
 2. If the container isn't running, check if it exists: `docker ps -a`
 3. If the container exists, start it: `docker start container_id`
