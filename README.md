@@ -15,9 +15,9 @@ Make sure MySQL server is running: \
      mysql:5.6`
 
 ## Build websec-api
-`mvn clean package`
+./mvnw clean package -DskipTests
 
-`java -jar target/web-security.jar`
+./mvnw spring-boot:run
 
 ## Import data
 1. `docker exec -it websec-mysql56 mysql -uroot -prootpassword websec`
@@ -87,6 +87,9 @@ password for pera@pera: password123 \
 
 ## Run
 `java -jar target/web-security.jar`
+
+## URL
+`http://localhost:9000/login.html`
 
 ## Or run websec-api service
 1. Place the websec-api.service in /etc/systemd/system \
