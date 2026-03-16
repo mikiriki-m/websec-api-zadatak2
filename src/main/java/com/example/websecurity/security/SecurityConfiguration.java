@@ -13,6 +13,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 
 import java.util.List;
 
@@ -52,7 +53,8 @@ public class SecurityConfiguration {
                         .requestMatchers(
 				"/",                     
 				"/login.html",         
-				"/app.html",            
+				"/app.html",
+                "/review.html",
 				"/css/**",             
 				"/js/**",                
 				"/auth/**",
@@ -75,6 +77,18 @@ public class SecurityConfiguration {
 
         return http.build();
     }
+    
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+    return (web) -> web.ignoring().requestMatchers(
+	"/login.html", 
+	"/app.html", 
+	"/review.html", 
+	"/css/**", 
+	"/js/**", 
+	"/error"
+    );
+	}
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
