@@ -6,14 +6,14 @@ Modified authentication. Checks if user is in a lockout period. If so, dont allo
 
 ## BUILD
 
-`sudo docker ps -a`
-`sudo docker start [CONTAINER ID]`
+```sudo docker ps -a
+sudo docker start [CONTAINER ID]
 
-`sudo fuser -k 9000/tcp`
-`git clone https://github.com/mikiriki-m/websec-api-zadatak2.git`
-`cd websec-api-zadatak2`
-`git checkout vuln/idor`
-`./mvnw clean package -DskipTests`
-`./mvnw spring-boot:run -Dspring-boot.run.arguments=--server.port=9000`
+sudo fuser -k 9000/tcp
+git clone https://github.com/mikiriki-m/websec-api-zadatak2.git
+cd websec-api-zadatak2
+git checkout vuln/idor
+./mvnw clean package -DskipTests
+./mvnw spring-boot:run -Dspring-boot.run.arguments=--server.port=9000```
 
 http://localhost:9000/login.html
