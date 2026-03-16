@@ -6,7 +6,8 @@ Modified authentication. Checks if user is in a lockout period. If so, dont allo
 
 ## BUILD
 
-```sudo docker ps -a
+```
+sudo docker ps -a
 sudo docker start [CONTAINER ID]
 
 sudo fuser -k 9000/tcp
