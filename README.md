@@ -15,6 +15,7 @@ git clone https://github.com/mikiriki-m/websec-api-zadatak2.git
 cd websec-api-zadatak2
 git checkout vuln/idor
 ./mvnw clean package -DskipTests
-./mvnw spring-boot:run -Dspring-boot.run.arguments=--server.port=9000```
+./mvnw spring-boot:run -Dspring-boot.run.arguments=--server.port=9000
+```
 
 http://localhost:9000/login.html
